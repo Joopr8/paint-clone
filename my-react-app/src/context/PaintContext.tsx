@@ -13,6 +13,8 @@ interface PaintContextType {
   setTool: React.Dispatch<React.SetStateAction<Tool>>;
   brushSettings: BrushSettings;
   setBrushSettings: React.Dispatch<React.SetStateAction<BrushSettings>>;
+  backgroundColor: string;
+  setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface PaintProviderProps {
@@ -27,6 +29,8 @@ const defaultPaintContext: PaintContextType = {
     brushColor: "#000",
   },
   setBrushSettings: () => {},
+  backgroundColor: "rgb(255, 255, 255)",
+  setBackgroundColor: () => {},
 };
 
 export const PaintContext =
@@ -37,12 +41,17 @@ export function PaintProvider({ children }: PaintProviderProps) {
   const [brushSettings, setBrushSettings] = useState(
     defaultPaintContext.brushSettings
   );
+  const [backgroundColor, setBackgroundColor] = useState(
+    defaultPaintContext.backgroundColor
+  );
 
   const value = {
     tool,
     setTool,
     brushSettings,
     setBrushSettings,
+    backgroundColor,
+    setBackgroundColor,
   };
 
   return (
