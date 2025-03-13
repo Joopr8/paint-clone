@@ -23,6 +23,7 @@ body {
   display: flex;
 
   justify-content: center;
+  z-index: 100;
 }
 
 /* Font Awesome Icons */
@@ -136,24 +137,9 @@ body {
   background: rgb(47, 47, 47);
 }
 
-/* JS Color */
-.jscolor {
-  border-style: solid;
-  border-radius: 5px;
-  height: 35px;
-  width: 120px;
-  margin-left: 3px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-}
-
-/* Canvas */
-canvas#canvas {
+.canvas-container {
   position: absolute;
   top: 50px;
-  cursor: crosshair;
-  z-index: 10;
 }
 
 /* Mobile Message */
