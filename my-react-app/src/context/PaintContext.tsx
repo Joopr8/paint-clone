@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useRef, useState } from "react";
+import CanvasDraw from "react-canvas-draw";
 
-// Types
 export type Tool = "Brush" | "Eraser" | "Bucket"; // Add more tools as needed
 
 export interface BrushSettings {
@@ -15,6 +15,7 @@ interface PaintContextType {
   setBrushSettings: React.Dispatch<React.SetStateAction<BrushSettings>>;
   backgroundColor: string;
   setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
+  canvasRef: React.RefObject<CanvasDraw | null>;
 }
 
 interface PaintProviderProps {
@@ -31,6 +32,7 @@ const defaultPaintContext: PaintContextType = {
   setBrushSettings: () => {},
   backgroundColor: "rgb(255, 255, 255)",
   setBackgroundColor: () => {},
+  canvasRef: { current: null }, // ✅ Dummy ref object for initial value
 };
 
 export const PaintContext =
@@ -44,6 +46,7 @@ export function PaintProvider({ children }: PaintProviderProps) {
   const [backgroundColor, setBackgroundColor] = useState(
     defaultPaintContext.backgroundColor
   );
+  const canvasRef = useRef<CanvasDraw | null>(null); // ✅ Actual ref used in the app
 
   const value = {
     tool,
@@ -52,6 +55,7 @@ export function PaintProvider({ children }: PaintProviderProps) {
     setBrushSettings,
     backgroundColor,
     setBackgroundColor,
+    canvasRef,
   };
 
   return (

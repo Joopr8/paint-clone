@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { usePaint } from "../hooks/usePaint";
 
 export default function Canvas() {
-  const { brushSettings, backgroundColor } = usePaint();
-  const canvasRef = useRef<CanvasDraw | null>(null);
+  const { brushSettings, backgroundColor, canvasRef } = usePaint();
 
   const [canvasSize, setCanvasSize] = useState({
     width: window.innerWidth,
