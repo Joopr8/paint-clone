@@ -24,7 +24,7 @@ const defaultPaintContext: PaintContextType = {
   setTool: () => {},
   brushSettings: {
     brushSize: "10",
-    brushColor: "#a51dab",
+    brushColor: "#000",
   },
   setBrushSettings: () => {},
 };
@@ -34,10 +34,9 @@ export const PaintContext =
 
 export function PaintProvider({ children }: PaintProviderProps) {
   const [tool, setTool] = useState<Tool>("Brush");
-  const [brushSettings, setBrushSettings] = useState({
-    brushSize: "10",
-    brushColor: "#fffff",
-  });
+  const [brushSettings, setBrushSettings] = useState(
+    defaultPaintContext.brushSettings
+  );
 
   const value = {
     tool,

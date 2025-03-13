@@ -40,10 +40,9 @@ export default function PaintTolls() {
           min="1"
           max="50"
           value={brushSettings.brushSize}
-          onChange={(e) => {
-            console.log(typeof e.target.value);
-            setBrushSettings({ ...brushSettings, brushSize: e.target.value });
-          }}
+          onChange={(e) =>
+            setBrushSettings({ ...brushSettings, brushSize: e.target.value })
+          }
           className="slider"
           id="brush-slider"
         />
