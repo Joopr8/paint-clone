@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ColorResult, SketchPicker } from "react-color";
+
 import { usePaint } from "../hooks/usePaint";
 import { BrushSettings } from "../context/PaintContext";
+import ColorPicker from "./ColorPicker";
 
 export default function PaintTolls() {
   const {
@@ -22,42 +23,26 @@ export default function PaintTolls() {
   };
 
   const updateBackgroundColor = (color: string) => {
-    console.log(color);
     setBackgroundColor(color);
   };
 
   return (
     <>
       <div className="brush tool">
-        <i className="fas fa-brush" title="Brush"></i>
-        <input
-          type="text"
-          value={brushSettings.brushColor}
-          readOnly
+        <ColorPicker
+          iconClass="fas fa-brush"
+          title="Brush"
+          color={brushSettings.brushColor}
           onClick={() => setShowColorPicker(!showColorPicker)}
-          style={{
-            width: "120px",
-            padding: "8px",
-            backgroundColor: brushSettings.brushColor,
-            border: "1px solid #ccc",
-            color: "#fff",
-            cursor: "pointer",
-          }}
+          onSelectColor={(c) => updateBrushColor(c.hex)}
         />
-        <i className="fas fa-fill-drip" title="Background Color"></i>
-        <input
-          type="text"
-          value={backgroundColor}
-          readOnly
+
+        <ColorPicker
+          iconClass="fas fa-fill-drip"
+          title="Background Color"
+          color={backgroundColor}
           onClick={() => setBackgroundColorPicker(!showBackgroundPicker)}
-          style={{
-            width: "120px",
-            padding: "8px",
-            backgroundColor: backgroundColor,
-            border: "1px solid #ccc",
-            color: "#fff",
-            cursor: "pointer",
-          }}
+          onSelectColor={(c) => updateBackgroundColor(c.hex)}
         />
         <span className="size" title="Brush Size">
           {brushSettings.brushSize}
@@ -73,7 +58,7 @@ export default function PaintTolls() {
           className="slider"
           id="brush-slider"
         />
-        {showColorPicker && (
+        {/* {showColorPicker && (
           <div style={{ marginTop: 10 }}>
             <SketchPicker
               color={brushSettings.brushColor}
@@ -90,7 +75,7 @@ export default function PaintTolls() {
               }
             />
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
