@@ -2,6 +2,7 @@ import { usePaint } from "../hooks/usePaint";
 
 export default function ControlsTolls() {
   const { canvasRef } = usePaint();
+
   return (
     <>
       <div className="tool">
@@ -10,13 +11,8 @@ export default function ControlsTolls() {
       <div className="tool" onClick={canvasRef.current?.undo}>
         <i className="fas fa-undo-alt" id="clear-canvas" title="Undo"></i>
       </div>
-      <div className="tool">
-        <i
-          className="fas fa-trash-alt"
-          id="clear-storage"
-          title="Delete"
-          onClick={canvasRef.current?.clear}
-        ></i>
+      <div className="tool" onClick={canvasRef.current?.clear}>
+        <i className="fas fa-trash-alt" id="clear-storage" title="Delete"></i>
       </div>
       <div className="tool">
         <i
@@ -40,9 +36,7 @@ export default function ControlsTolls() {
         ></i>
       </div>
       <div className="tool">
-        <a id="download">
-          <i className="far fa-save" title="Save Image File"></i>
-        </a>
+        <i className="far fa-save" title="Save Image File"></i>
       </div>
     </>
   );

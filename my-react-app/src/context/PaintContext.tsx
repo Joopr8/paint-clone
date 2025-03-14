@@ -16,6 +16,7 @@ interface PaintContextType {
   backgroundColor: string;
   setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
   canvasRef: React.RefObject<CanvasDraw | null>;
+  onCanvasReady?: (canvas: CanvasDraw) => void;
 }
 
 interface PaintProviderProps {
@@ -32,21 +33,30 @@ const defaultPaintContext: PaintContextType = {
   setBrushSettings: () => {},
   backgroundColor: "rgb(255, 255, 255)",
   setBackgroundColor: () => {},
-  canvasRef: { current: null }, // ✅ Dummy ref object for initial value
+  canvasRef: { current: null },
 };
 
 export const PaintContext =
   createContext<PaintContextType>(defaultPaintContext);
 
 export function PaintProvider({ children }: PaintProviderProps) {
+  const canvasRef = useRef<CanvasDraw | null>(null);
+
   const [tool, setTool] = useState<Tool>("Brush");
+
   const [brushSettings, setBrushSettings] = useState(
     defaultPaintContext.brushSettings
   );
+
   const [backgroundColor, setBackgroundColor] = useState(
     defaultPaintContext.backgroundColor
   );
-  const canvasRef = useRef<CanvasDraw | null>(null); // ✅ Actual ref used in the app
+
+  const [isCanvasReady, setIsCanvasReady] = useState(false);
+  const handleCanvasReady = (canvas: CanvasDraw) => {
+    canvasRef.current = canvas;
+    setIsCanvasReady(true);
+  };
 
   const value = {
     tool,
@@ -56,6 +66,8 @@ export function PaintProvider({ children }: PaintProviderProps) {
     backgroundColor,
     setBackgroundColor,
     canvasRef,
+    onCanvasReady: handleCanvasReady,
+    isCanvasReady,
   };
 
   return (
