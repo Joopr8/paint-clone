@@ -37,7 +37,7 @@ export default function Canvas() {
         brushColor={brushSettings.brushColor}
         brushRadius={Number(brushSettings.brushSize)}
         lazyRadius={0}
-        hideGrid={false}
+        hideGrid={true}
         canvasWidth={canvasSize.width}
         canvasHeight={canvasSize.height}
         backgroundColor={backgroundColor}

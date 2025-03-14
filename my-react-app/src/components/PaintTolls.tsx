@@ -31,28 +31,31 @@ export default function PaintTolls() {
     }));
   };
 
-  const updateBackgroundColor = (color: string) => {
-    setBackgroundColor(color);
-    removeEraserStrokes();
+  const updateBackgroundColor = (newBackgroundColor: string) => {
+    removeEraserStrokes(backgroundColor, newBackgroundColor);
+    setBackgroundColor(newBackgroundColor);
   };
 
-  const removeEraserStrokes = () => {
+  const removeEraserStrokes = (
+    oldBackground: string,
+    newBackground: string
+  ) => {
     if (!canvasRef.current) return;
 
     const saveDataStr = canvasRef.current.getSaveData();
     const saveData = JSON.parse(saveDataStr);
 
-    // Remove all lines drawn with background color (aka Eraser)
-    const filteredLines = saveData.lines.filter(
-      (line: Line) => line.brushColor !== backgroundColor
+    const updatedLines = saveData.lines.map((line: Line) =>
+      line.brushColor === oldBackground
+        ? { ...line, brushColor: newBackground }
+        : line
     );
 
     const cleanedSaveData = {
       ...saveData,
-      lines: filteredLines,
+      lines: updatedLines,
     };
 
-    // Load the cleaned data back into the canvas
     canvasRef.current.loadSaveData(JSON.stringify(cleanedSaveData), true);
   };
 
