@@ -28,7 +28,7 @@ export default function Canvas() {
     if (canvasRef.current) {
       onCanvasReady?.(canvasRef.current);
     }
-  }, []);
+  }, [canvasRef, onCanvasReady]);
 
   return (
     <div className="canvas-container">

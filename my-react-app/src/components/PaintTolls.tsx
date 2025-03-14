@@ -4,12 +4,21 @@ import { usePaint } from "../hooks/usePaint";
 import { BrushSettings } from "../context/PaintContext";
 import ColorPicker from "./ColorPicker";
 
+type Point = { x: number; y: number };
+
+interface Line {
+  brushColor: string;
+  brushRadius: number;
+  points: Point[];
+}
+
 export default function PaintTolls() {
   const {
     brushSettings,
     setBrushSettings,
     backgroundColor,
     setBackgroundColor,
+    canvasRef,
   } = usePaint();
 
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -24,6 +33,27 @@ export default function PaintTolls() {
 
   const updateBackgroundColor = (color: string) => {
     setBackgroundColor(color);
+    removeEraserStrokes();
+  };
+
+  const removeEraserStrokes = () => {
+    if (!canvasRef.current) return;
+
+    const saveDataStr = canvasRef.current.getSaveData();
+    const saveData = JSON.parse(saveDataStr);
+
+    // Remove all lines drawn with background color (aka Eraser)
+    const filteredLines = saveData.lines.filter(
+      (line: Line) => line.brushColor !== backgroundColor
+    );
+
+    const cleanedSaveData = {
+      ...saveData,
+      lines: filteredLines,
+    };
+
+    // Load the cleaned data back into the canvas
+    canvasRef.current.loadSaveData(JSON.stringify(cleanedSaveData), true);
   };
 
   return (

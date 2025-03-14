@@ -1,11 +1,18 @@
 import { usePaint } from "../hooks/usePaint";
 
 export default function ControlsTolls() {
-  const { canvasRef } = usePaint();
+  const { canvasRef, setBrushSettings, backgroundColor } = usePaint();
+
+  function onEraseHandler() {
+    setBrushSettings((prevState) => ({
+      ...prevState,
+      brushColor: backgroundColor,
+    }));
+  }
 
   return (
     <>
-      <div className="tool">
+      <div className="tool" onClick={onEraseHandler}>
         <i className="fas fa-eraser" id="eraser" title="Eraser"></i>
       </div>
       <div className="tool" onClick={canvasRef.current?.undo}>
