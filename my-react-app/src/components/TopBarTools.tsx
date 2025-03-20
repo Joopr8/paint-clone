@@ -1,9 +1,9 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import PaintTolls from "./PaintTolls";
+import PaintTools from "./PaintTools";
 import { usePaint } from "../hooks/usePaint";
-import ControlsTolls from "./ControlsTolls";
+import ControlsTools from "./ControlsTools";
 
-export default function TopBarTolls() {
+export default function TopBarTools() {
   const { tool, action } = usePaint();
   return (
     <>
@@ -13,8 +13,8 @@ export default function TopBarTolls() {
             {action || tool}
           </span>
         </div>
-        <PaintTolls />
-        <ControlsTolls />
+        <PaintTools />
+        <ControlsTools />
       </div>
       <div className="mobile-message">
         <h2>Please use a lager screen</h2>

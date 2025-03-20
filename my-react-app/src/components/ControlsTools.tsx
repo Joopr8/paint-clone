@@ -2,7 +2,7 @@ import { usePaint } from "../hooks/usePaint";
 import { saveDrawing, loadDrawing } from "../utils/drawingStorage";
 import { Action, Tool } from "../context/PaintContext";
 
-export default function ControlsTolls() {
+export default function ControlsTools() {
   const {
     canvasRef,
     setBrushSettings,
