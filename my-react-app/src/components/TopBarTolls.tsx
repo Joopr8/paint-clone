@@ -4,13 +4,13 @@ import { usePaint } from "../hooks/usePaint";
 import ControlsTolls from "./ControlsTolls";
 
 export default function TopBarTolls() {
-  const { tool } = usePaint();
+  const { tool, action } = usePaint();
   return (
     <>
       <div className="top-bar">
         <div className="active-tool">
           <span id="active-tool" title="Active Tool">
-            {tool}
+            {action || tool}
           </span>
         </div>
         <PaintTolls />

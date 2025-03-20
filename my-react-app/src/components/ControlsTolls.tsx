@@ -1,38 +1,51 @@
 import { usePaint } from "../hooks/usePaint";
-import {
-  saveDrawing,
-  loadDrawing,
-  clearDrawing,
-} from "../utils/drawingStorage";
+import { saveDrawing, loadDrawing } from "../utils/drawingStorage";
+import { Action, Tool } from "../context/PaintContext";
 
 export default function ControlsTolls() {
-  const { canvasRef, setBrushSettings, backgroundColor } = usePaint();
+  const {
+    canvasRef,
+    setBrushSettings,
+    backgroundColor,
+    setTool,
+    triggerAction,
+  } = usePaint();
 
   function onEraseHandler() {
     setBrushSettings((prevState) => ({
       ...prevState,
       brushColor: backgroundColor,
     }));
+    setTool(Tool.ERASER);
   }
 
   const saveCanvas = () => {
     if (canvasRef.current) {
       const saveData = canvasRef.current.getSaveData();
       saveDrawing(saveData);
+      triggerAction(Action.SAVE_LOCAL_STORAGE);
     }
   };
 
-  const clearCanvas = () => {
-    if (canvasRef.current) {
-      canvasRef.current.clear();
-    }
-    clearDrawing();
-  };
-
-  const loadCanvas = () => {
+  const loadStorageCanvas = () => {
     const savedData = loadDrawing();
     if (canvasRef.current && savedData) {
       canvasRef.current.loadSaveData(savedData, true);
+      triggerAction(Action.LOAD_LOCAL_STORAGE);
+    }
+  };
+
+  const undoDrawing = () => {
+    if (canvasRef.current) {
+      canvasRef.current.undo();
+      triggerAction(Action.UNDO);
+    }
+  };
+
+  const clearCurrentDrawing = () => {
+    if (canvasRef.current) {
+      canvasRef.current.clear();
+      triggerAction(Action.CANVAS_DELETED);
     }
   };
 
@@ -52,10 +65,10 @@ export default function ControlsTolls() {
       <div className="tool" onClick={onEraseHandler}>
         <i className="fas fa-eraser" id="eraser" title="Eraser"></i>
       </div>
-      <div className="tool" onClick={canvasRef.current?.undo}>
+      <div className="tool" onClick={undoDrawing}>
         <i className="fas fa-undo-alt" id="clear-canvas" title="Undo"></i>
       </div>
-      <div className="tool" onClick={canvasRef.current?.clear}>
+      <div className="tool" onClick={clearCurrentDrawing}>
         <i className="fas fa-trash-alt" id="clear-storage" title="Delete"></i>
       </div>
       <div className="tool" onClick={saveCanvas}>
@@ -65,18 +78,11 @@ export default function ControlsTolls() {
           title="Save Local Storage"
         ></i>
       </div>
-      <div className="tool" onClick={loadCanvas}>
+      <div className="tool" onClick={loadStorageCanvas}>
         <i
           className="fas fa-upload"
           id="load-storage"
           title="Load Local Storage"
-        ></i>
-      </div>
-      <div className="tool" onClick={clearCanvas}>
-        <i
-          className="fas fa-trash-alt"
-          id="clear-storage"
-          title="Clear Local Storage"
         ></i>
       </div>
       <div className="tool">

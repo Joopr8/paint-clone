@@ -7,7 +7,3 @@ export const saveDrawing = (data: string) => {
 export const loadDrawing = (): string | null => {
   return localStorage.getItem(DRAWING_KEY);
 };
-
-export const clearDrawing = () => {
-  localStorage.removeItem(DRAWING_KEY);
-};

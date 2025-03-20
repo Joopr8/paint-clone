@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { usePaint } from "../hooks/usePaint";
-import { BrushSettings } from "../context/PaintContext";
+import { BrushSettings, Tool } from "../context/PaintContext";
 import ColorPicker from "./ColorPicker";
 
 type Point = { x: number; y: number };
@@ -19,6 +19,7 @@ export default function PaintTolls() {
     backgroundColor,
     setBackgroundColor,
     canvasRef,
+    setTool,
   } = usePaint();
 
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -29,6 +30,7 @@ export default function PaintTolls() {
       ...prevState,
       brushColor: color,
     }));
+    setTool(Tool.BRUSH);
   };
 
   const updateBackgroundColor = (newBackgroundColor: string) => {
