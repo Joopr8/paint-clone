@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { ColorResult, SketchPicker } from "react-color";
+import { usePaint } from "../hooks/usePaint";
+import { Tool } from "../context/PaintContext";
 
 interface ColorInputProps {
   iconClass?: string;
@@ -7,6 +9,7 @@ interface ColorInputProps {
   color: string;
   onClick: () => void;
   onSelectColor: (c: ColorResult) => void;
+  isColorBrush?: boolean;
 }
 
 export default function ColorPicker({
@@ -14,8 +17,12 @@ export default function ColorPicker({
   title,
   color,
   onSelectColor,
+  isColorBrush,
 }: ColorInputProps) {
+  const { tool } = usePaint();
   const [showColorPicker, setShowColorPicker] = useState(false);
+
+  const inputValue = isColorBrush && tool === Tool.ERASER ? "ERASE MODE" : "";
 
   return (
     <>
@@ -23,7 +30,7 @@ export default function ColorPicker({
       <input
         type="text"
         readOnly
-        value={color}
+        value={inputValue}
         className="color-input"
         onClick={() => setShowColorPicker(!showColorPicker)}
         style={{ backgroundColor: color }}

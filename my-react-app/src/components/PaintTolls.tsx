@@ -70,6 +70,7 @@ export default function PaintTolls() {
           color={brushSettings.brushColor}
           onClick={() => setShowColorPicker(!showColorPicker)}
           onSelectColor={(c) => updateBrushColor(c.hex)}
+          isColorBrush
         />
 
         <ColorPicker
@@ -93,24 +94,6 @@ export default function PaintTolls() {
           className="slider"
           id="brush-slider"
         />
-        {/* {showColorPicker && (
-          <div style={{ marginTop: 10 }}>
-            <SketchPicker
-              color={brushSettings.brushColor}
-              onChangeComplete={(c: ColorResult) => updateBrushColor(c.hex)}
-            />
-          </div>
-        )}
-        {showBackgroundPicker && (
-          <div style={{ marginTop: 10 }}>
-            <SketchPicker
-              color={backgroundColor}
-              onChangeComplete={(c: ColorResult) =>
-                updateBackgroundColor(c.hex)
-              }
-            />
-          </div>
-        )} */}
       </div>
     </>
   );
