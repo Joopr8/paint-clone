@@ -49,16 +49,29 @@ export default function ControlsTolls() {
     }
   };
 
-  // const downloadCanvas = () => {
-  //   if (canvasRef.current) {
-  //     const canvas = canvasRef.current.getSaveData(); // Access the canvas element
-  //     const dataURL = canvas.toDataURL(); // Get the data URL of the canvas
-  //     const link = document.createElement("a");
-  //     link.href = dataURL;
-  //     link.download = "drawing.png"; // Set the download attribute
-  //     link.click(); // Trigger the download
-  //   }
-  // };
+  const downloadCanvas = () => {
+    if (canvasRef.current && canvasRef.current.canvasContainer) {
+      // Get the actual drawing canvas; assuming it might be the second canvas in the container
+      const drawingCanvas =
+        canvasRef.current.canvasContainer.querySelectorAll("canvas")[1];
+
+      if (!(drawingCanvas instanceof HTMLCanvasElement)) {
+        console.warn("Drawing canvas not found.");
+        return;
+      }
+
+      // Generate the image data URL (PNG format)
+      const dataUrl = drawingCanvas.toDataURL("image/jpg");
+
+      // Create an anchor link to trigger the download
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "MyDrawing.png";
+      link.click();
+    } else {
+      console.warn("Canvas container not available.");
+    }
+  };
 
   return (
     <>
@@ -73,7 +86,7 @@ export default function ControlsTolls() {
       </div>
       <div className="tool" onClick={saveCanvas}>
         <i
-          className="fas fa-download"
+          className="fas fa-save"
           id="save-storage"
           title="Save Local Storage"
         ></i>
@@ -85,8 +98,8 @@ export default function ControlsTolls() {
           title="Load Local Storage"
         ></i>
       </div>
-      <div className="tool">
-        <i className="far fa-save" title="Save Image File"></i>
+      <div className="tool" onClick={downloadCanvas}>
+        <i className="fas fa-download" title="Save Image File"></i>
       </div>
     </>
   );
