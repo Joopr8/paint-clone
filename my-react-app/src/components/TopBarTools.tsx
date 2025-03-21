@@ -4,13 +4,13 @@ import { usePaint } from "../hooks/usePaint";
 import ControlsTools from "./ControlsTools";
 
 export default function TopBarTools() {
-  const { tool, action } = usePaint();
+  const { paintState } = usePaint();
   return (
     <>
       <div className="top-bar">
         <div className="active-tool">
           <span id="active-tool" title="Active Tool">
-            {action || tool}
+            {paintState.action || paintState.tool}
           </span>
         </div>
         <PaintTools />

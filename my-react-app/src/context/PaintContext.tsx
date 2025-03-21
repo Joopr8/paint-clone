@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useRef, useState } from "react";
+import { createContext, ReactNode, useMemo, useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 
 export enum Tool {
@@ -19,90 +19,102 @@ export interface BrushSettings {
   brushColor: string;
 }
 
-interface PaintContextType {
+export interface PaintState {
   tool: Tool;
-  setTool: React.Dispatch<React.SetStateAction<Tool>>;
-  action: Action | undefined;
-  setAction: React.Dispatch<React.SetStateAction<Action | undefined>>;
+  action?: Action | undefined;
   brushSettings: BrushSettings;
-  setBrushSettings: React.Dispatch<React.SetStateAction<BrushSettings>>;
   backgroundColor: string;
-  setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface PaintContextType {
+  paintState: PaintState;
+  setPaintState: React.Dispatch<React.SetStateAction<PaintState>>;
+
+  setTool: (tool: Tool) => void;
+  setAction: (action: Action | undefined) => void;
+  setBrushSettings: (brush: BrushSettings) => void;
+  setBackgroundColor: (color: string) => void;
+  triggerAction: (action: Action, duration?: number) => void;
+
   canvasRef: React.RefObject<CanvasDraw | null>;
-  onCanvasReady?: (canvas: CanvasDraw) => void;
-  triggerAction: (action: Action, duration?: number) => void; // <-- NEW
 }
 
 interface PaintProviderProps {
   children: ReactNode;
 }
 
+function throwIfUsedOutsideProvider<T>(): React.Dispatch<
+  React.SetStateAction<T>
+> {
+  return () => {
+    throw new Error("Tried to use setter outside of PaintProvider.");
+  };
+}
+
 const defaultPaintContext: PaintContextType = {
-  tool: Tool.BRUSH,
-  setTool: () => {},
-  action: undefined,
-  setAction: () => {},
-  brushSettings: {
-    brushSize: "10",
-    brushColor: "#000",
+  paintState: {
+    tool: Tool.BRUSH,
+    action: undefined,
+    brushSettings: {
+      brushSize: "10",
+      brushColor: "#000",
+    },
+    backgroundColor: "rgb(255, 255, 255)",
   },
-  setBrushSettings: () => {},
-  backgroundColor: "rgb(255, 255, 255)",
-  setBackgroundColor: () => {},
   canvasRef: { current: null },
-  triggerAction: () => {}, // <-- NEW
+
+  setTool: throwIfUsedOutsideProvider<Tool>(),
+  setAction: throwIfUsedOutsideProvider<Action | undefined>(),
+  setBrushSettings: throwIfUsedOutsideProvider<BrushSettings>(),
+  setBackgroundColor: throwIfUsedOutsideProvider<string>(),
+  setPaintState: throwIfUsedOutsideProvider<PaintState>(),
+  triggerAction: () => {
+    throw new Error("Tried to use triggerAction outside of PaintProvider.");
+  },
 };
 
 export const PaintContext =
   createContext<PaintContextType>(defaultPaintContext);
 
 export function PaintProvider({ children }: PaintProviderProps) {
-  const actionTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
+  const actionTimeoutRef = useRef<number | undefined>(undefined);
 
   const canvasRef = useRef<CanvasDraw | null>(null);
 
-  const [tool, setTool] = useState<Tool>(Tool.BRUSH);
+  const [paintState, setPaintState] = useState(defaultPaintContext.paintState);
 
-  const [action, setAction] = useState<Action | undefined>(undefined);
+  const setTool = (tool: Tool) => setPaintState((prev) => ({ ...prev, tool }));
 
-  const [brushSettings, setBrushSettings] = useState(
-    defaultPaintContext.brushSettings
-  );
+  const setAction = (action: Action | undefined) =>
+    setPaintState((prev) => ({ ...prev, action }));
 
-  const [backgroundColor, setBackgroundColor] = useState(
-    defaultPaintContext.backgroundColor
-  );
+  const setBrushSettings = (brushSettings: BrushSettings) =>
+    setPaintState((prev) => ({ ...prev, brushSettings }));
 
-  const [isCanvasReady, setIsCanvasReady] = useState(false);
-  const handleCanvasReady = (canvas: CanvasDraw) => {
-    canvasRef.current = canvas;
-    setIsCanvasReady(true);
-  };
+  const setBackgroundColor = (backgroundColor: string) =>
+    setPaintState((prev) => ({ ...prev, backgroundColor }));
 
   const triggerAction = (newAction: Action, duration = 500) => {
     clearTimeout(actionTimeoutRef.current);
     setAction(newAction);
     actionTimeoutRef.current = setTimeout(() => {
-      setAction(undefined);
+      setPaintState((prev) => ({ ...prev, action: undefined }));
     }, duration);
   };
 
-  const value = {
-    tool,
-    setTool,
-    action,
-    setAction,
-    brushSettings,
-    setBrushSettings,
-    backgroundColor,
-    setBackgroundColor,
-    canvasRef,
-    onCanvasReady: handleCanvasReady,
-    isCanvasReady,
-    triggerAction,
-  };
+  const value = useMemo(
+    () => ({
+      setTool,
+      setAction,
+      setBrushSettings,
+      setBackgroundColor,
+      paintState,
+      setPaintState,
+      canvasRef,
+      triggerAction,
+    }),
+    [paintState]
+  );
 
   return (
     <PaintContext.Provider value={value}>{children}</PaintContext.Provider>

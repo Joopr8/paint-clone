@@ -3,8 +3,9 @@ import CanvasDraw from "react-canvas-draw";
 import { usePaint } from "../hooks/usePaint";
 
 export default function Canvas() {
-  const { brushSettings, backgroundColor, canvasRef, onCanvasReady } =
-    usePaint();
+  const { paintState, canvasRef } = usePaint();
+
+  const { brushSettings, backgroundColor } = paintState;
 
   const [canvasSize, setCanvasSize] = useState({
     width: window.innerWidth,
@@ -23,12 +24,6 @@ export default function Canvas() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      onCanvasReady?.(canvasRef.current);
-    }
-  }, [canvasRef, onCanvasReady]);
 
   return (
     <div className="canvas-container">
