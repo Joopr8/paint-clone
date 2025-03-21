@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ColorResult, SketchPicker } from "react-color";
 import { usePaint } from "../hooks/usePaint";
-import { Tool } from "../context/PaintContext";
+import { Tool } from "../types/PaintTypes";
 
 interface ColorInputProps {
   iconClass?: string;
@@ -19,10 +19,11 @@ export default function ColorPicker({
   onSelectColor,
   isColorBrush,
 }: ColorInputProps) {
-  const { tool } = usePaint();
+  const { paintState } = usePaint();
   const [showColorPicker, setShowColorPicker] = useState(false);
 
-  const inputValue = isColorBrush && tool === Tool.ERASER ? "ERASE MODE" : "";
+  const inputValue =
+    isColorBrush && paintState.tool === Tool.ERASER ? "ERASE MODE" : "";
 
   return (
     <>

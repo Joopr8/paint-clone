@@ -1,7 +1,6 @@
-// src/hooks/useCanvasActions.ts
 import { usePaint } from "../hooks/usePaint";
-import { saveDrawing, loadDrawing } from "../utils/drawingStorage";
-import { Action, Tool } from "../context/PaintContext";
+import { saveDrawing, loadDrawing } from "../utils/PaintUtils";
+import { Action, Tool } from "../types/PaintTypes";
 
 export function useCanvasActions() {
   const { canvasRef, paintState, setBrushSettings, setTool, triggerAction } =

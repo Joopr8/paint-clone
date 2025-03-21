@@ -1,6 +1,6 @@
 import "./App.css";
 import TopBarTools from "./components/TopBarTools";
-import { PaintProvider } from "./context/PaintContext";
+import { PaintProvider } from "./context/PaintProvider";
 import Canvas from "./components/Canvas";
 
 function App() {

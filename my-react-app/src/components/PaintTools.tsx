@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 
 import { usePaint } from "../hooks/usePaint";
-import { PaintState, Tool } from "../context/PaintContext";
+import { PaintState, Tool } from "../types/PaintTypes";
 import ColorPicker from "./ColorPicker";
-import { Line } from "../types/paint.types";
+import { Line } from "../types/PaintTypes";
 
 export default function PaintTools() {
   const {
