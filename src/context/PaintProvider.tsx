@@ -16,20 +16,20 @@ export function PaintProvider({ children }: PaintProviderProps) {
 
   const [paintState, setPaintState] = useState(defaultPaintContext.paintState);
 
-  const setTool = useCallback((tool: Tool) => {
+  const setTool = (tool: Tool) => {
     setPaintState((prev) => ({ ...prev, tool }));
-  }, []);
+  };
+
+  const setBrushSettings = (brushSettings: BrushSettings) => {
+    setPaintState((prev) => ({ ...prev, brushSettings }));
+  };
+
+  const setBackgroundColor = (backgroundColor: string) => {
+    setPaintState((prev) => ({ ...prev, backgroundColor }));
+  };
 
   const setAction = useCallback((action: Action | undefined) => {
     setPaintState((prev) => ({ ...prev, action }));
-  }, []);
-
-  const setBrushSettings = useCallback((brushSettings: BrushSettings) => {
-    setPaintState((prev) => ({ ...prev, brushSettings }));
-  }, []);
-
-  const setBackgroundColor = useCallback((backgroundColor: string) => {
-    setPaintState((prev) => ({ ...prev, backgroundColor }));
   }, []);
 
   const triggerAction = useCallback(
@@ -54,14 +54,7 @@ export function PaintProvider({ children }: PaintProviderProps) {
       canvasRef,
       triggerAction,
     }),
-    [
-      setTool,
-      setAction,
-      setBrushSettings,
-      setBackgroundColor,
-      paintState,
-      triggerAction,
-    ]
+    [setAction, paintState, triggerAction]
   );
 
   return (
