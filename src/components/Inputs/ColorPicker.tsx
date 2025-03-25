@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ColorResult, SketchPicker } from "react-color";
-import { usePaint } from "../hooks/usePaint";
-import { Tool } from "../types/PaintTypes";
+import { usePaint } from "../../hooks/usePaint";
+import { Tool } from "../../types/PaintTypes";
 
 interface ColorInputProps {
   iconClass?: string;

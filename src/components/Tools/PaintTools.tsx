@@ -1,17 +1,18 @@
 import { useCallback, useState } from "react";
-
-import { usePaint } from "../hooks/usePaint";
-import { PaintState, Tool } from "../types/PaintTypes";
-import ColorPicker from "./ColorPicker";
-import { Line } from "../types/PaintTypes";
+import { usePaint } from "../../hooks/usePaint";
+import { PaintState, Tool } from "../../types/PaintTypes";
+import ColorPicker from "../Inputs/ColorPicker";
+import { Line } from "../../types/PaintTypes";
+import styles from "./PaintTools.module.css";
+import SliderInput from "../Inputs/SliderInput";
 
 export default function PaintTools() {
   const {
     canvasRef,
-    setBrushSettings,
     setPaintState,
     paintState,
     setBackgroundColor,
+    setBrushSettings,
   } = usePaint();
 
   const { backgroundColor, brushSettings } = paintState;
@@ -63,7 +64,7 @@ export default function PaintTools() {
   );
 
   return (
-    <div className="brush tool">
+    <div className={styles.brush}>
       <ColorPicker
         iconClass="fas fa-brush"
         title="Brush"
@@ -80,22 +81,14 @@ export default function PaintTools() {
         onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
         onSelectColor={(c) => updateBackgroundColor(c.hex)}
       />
-      <span className="size" title="Brush Size">
-        {brushSettings.brushSize}
-      </span>
-      <input
-        type="range"
-        min="1"
-        max="50"
+      <SliderInput
         value={brushSettings.brushSize}
-        onChange={(e) =>
+        onSelectRange={(newValue) =>
           setBrushSettings({
             ...brushSettings,
-            brushSize: e.target.value,
+            brushSize: newValue,
           })
         }
-        className="slider"
-        id="brush-slider"
       />
     </div>
   );

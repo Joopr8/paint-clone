@@ -1,7 +1,7 @@
 import "./App.css";
-import TopBarTools from "./components/TopBarTools";
+import TopBarTools from "./components/Tools/TopBarTools";
 import { PaintProvider } from "./context/PaintProvider";
-import Canvas from "./components/Canvas";
+import Canvas from "./components/Canvas/Canvas";
 
 function App() {
   return (

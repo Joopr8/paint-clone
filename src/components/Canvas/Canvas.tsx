@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
-import { usePaint } from "../hooks/usePaint";
+import { usePaint } from "../../hooks/usePaint";
+import styles from "./Canvas.module.css";
 
 export default function Canvas() {
   const { paintState, canvasRef } = usePaint();
@@ -26,7 +27,7 @@ export default function Canvas() {
   }, []);
 
   return (
-    <div className="canvas-container">
+    <div className={styles.canvasContainer}>
       <CanvasDraw
         ref={canvasRef}
         brushColor={brushSettings.brushColor}
