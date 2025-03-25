@@ -34,6 +34,10 @@ export interface PaintState {
   backgroundColor: string;
 }
 
+export interface CustomCanvasDraw extends CanvasDraw {
+  canvasContainer: HTMLDivElement;
+}
+
 export interface PaintContextType {
   paintState: PaintState;
   setPaintState: React.Dispatch<React.SetStateAction<PaintState>>;
@@ -44,7 +48,7 @@ export interface PaintContextType {
   setBackgroundColor: (color: string) => void;
   triggerAction: (action: Action, duration?: number) => void;
 
-  canvasRef: React.RefObject<CanvasDraw | null>;
+  canvasRef: React.RefObject<CustomCanvasDraw | null>;
 }
 
 export interface PaintProviderProps {

@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import CanvasDraw from "react-canvas-draw";
 import { PaintContext } from "./PaintContext";
 import {
   Action,
   BrushSettings,
+  CustomCanvasDraw,
   PaintProviderProps,
   Tool,
 } from "../types/PaintTypes";
@@ -12,7 +12,7 @@ import { defaultPaintContext } from "../utils/PaintUtils";
 export function PaintProvider({ children }: PaintProviderProps) {
   const actionTimeoutRef = useRef<number | undefined>(undefined);
 
-  const canvasRef = useRef<CanvasDraw | null>(null);
+  const canvasRef = useRef<CustomCanvasDraw | null>(null);
 
   const [paintState, setPaintState] = useState(defaultPaintContext.paintState);
 

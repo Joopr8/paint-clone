@@ -41,16 +41,16 @@ export function useCanvasActions() {
 
   const download = () => {
     const canvasContainer = canvasRef.current?.canvasContainer;
-    if (!canvasContainer) return;
+    if (canvasContainer) {
+      const drawingCanvas = canvasContainer.querySelectorAll("canvas")[1];
+      if (!(drawingCanvas instanceof HTMLCanvasElement)) return;
 
-    const drawingCanvas = canvasContainer.querySelectorAll("canvas")[1];
-    if (!(drawingCanvas instanceof HTMLCanvasElement)) return;
-
-    const dataUrl = drawingCanvas.toDataURL("image/jpg");
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = "MyDrawing.jpg";
-    link.click();
+      const dataUrl = drawingCanvas.toDataURL("image/jpg");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "MyDrawing.jpg";
+      link.click();
+    }
   };
 
   return {
