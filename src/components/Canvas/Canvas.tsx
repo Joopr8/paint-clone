@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { usePaint } from "../../hooks/usePaint";
 import styles from "./Canvas.module.css";
+import MobileScreenWarning from "../MobileScreenWarning";
 
 export default function Canvas() {
   const { paintState, canvasRef } = usePaint();
@@ -20,6 +21,8 @@ export default function Canvas() {
     });
   };
 
+  const isUserMobile = canvasSize.width < 1200 ? true : false;
+
   useEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -28,6 +31,7 @@ export default function Canvas() {
 
   return (
     <div className={styles.canvasContainer}>
+      {isUserMobile && <MobileScreenWarning />}
       <CanvasDraw
         ref={canvasRef}
         brushColor={brushSettings.brushColor}
