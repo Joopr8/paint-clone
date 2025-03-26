@@ -1,3 +1,28 @@
+# Intro
+
+A React-based drawing application that allows users to create, edit, and save drawings with various brush tools. Originally built with HTML, CSS, and JavaScript, this project was refactored into React using modern state management and component-based architecture.
+
+## Features
+- Drawing tools including brush, eraser, and background fill
+- Undo and clear canvas functionality
+- Save and load drawings from localStorage
+- Download drawings as an image
+- Responsive UI optimized for larger screens
+
+##React Features & Best Practices
+- Component-based architecture with reusable UI components
+- Context API with custom hooks for centralized state management
+- useState and useRef for handling canvas interactions and persistent state
+- useCallback and useMemo for optimized rendering and performance improvements
+- CSS Modules for scoped styles and maintainability
+- Vite for a fast and efficient development environment
+
+##Tech Stack
+- React with TypeScript
+- CSS Modules
+- Vite
+- React Canvas Draw
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
