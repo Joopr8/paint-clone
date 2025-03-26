@@ -1,6 +1,6 @@
 # Intro
 
-A React-based drawing application that allows users to create, edit, and save drawings with various brush tools. Originally built with HTML, CSS, and JavaScript, this project was refactored into React using modern state management and component-based architecture.
+A React-based drawing application that allows users to create, edit, and save drawings with various brush tools. Originally built with HTML, CSS, and JavaScript, this project was refactored in 2025 into React using modern state management and component-based architecture.
 
 ## Features
 - Drawing tools including brush, eraser, and background fill
