@@ -9,7 +9,7 @@ A React-based drawing application that allows users to create, edit, and save dr
 - Download drawings as an image
 - Responsive UI optimized for larger screens
 
-##React Features & Best Practices
+## React Features & Best Practices
 - Component-based architecture with reusable UI components
 - Context API with custom hooks for centralized state management
 - useState and useRef for handling canvas interactions and persistent state
@@ -17,7 +17,7 @@ A React-based drawing application that allows users to create, edit, and save dr
 - CSS Modules for scoped styles and maintainability
 - Vite for a fast and efficient development environment
 
-##Tech Stack
+## Tech Stack
 - React with TypeScript
 - CSS Modules
 - Vite
