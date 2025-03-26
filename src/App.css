@@ -40,14 +40,6 @@ body {
   color: rgb(223, 37, 37);
 }
 
-.color-input {
-  width: 120px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  color: #000;
-  cursor: pointer;
-}
-
 /* Mobile Message */
 .mobile-message {
   display: none;
